@@ -9,7 +9,8 @@ const getEstadoInicial = () =>{
     return{
         baraja,
         parejaSeleccionada: [],
-        estaComparando: false
+        estaComparando: false,
+        numeroDeIntentos: 0
     };
 }
 
@@ -23,7 +24,10 @@ class App extends Component {
   render() {
     return (
         <div className="App">
-            <Header/>
+            <Header
+                numeroDeIntentos={this.state.numeroDeIntentos}
+                resetearPartida={() => this.resetearPartida()}
+            />
             <Tablero
                 baraja={this.state.baraja}
                 parejaSeleccionada={this.state.parejaSeleccionada}
@@ -35,7 +39,7 @@ class App extends Component {
 
   seleccionarCarta(carta){
       if(
-          this.state.estacomparando ||
+          this.state.estaComparando ||
           this.state.parejaSeleccionada.indexOf(carta) > -1 ||
           carta.fueAdivinada
       ){
@@ -44,7 +48,49 @@ class App extends Component {
       const parejaSeleccionada = [...this.state.parejaSeleccionada, carta];
       this.setState({
           parejaSeleccionada
-      })
+      });
+
+      if(parejaSeleccionada.length === 2){
+          this.compararPareja(parejaSeleccionada);
+      }
+  }
+
+  compararPareja(parejaSeleccionada){
+      this.setState({estaComparando:true});
+      setTimeout(()=>{
+          const [primeraCarta, segundaCarta] = parejaSeleccionada;
+          let baraja = this.state.baraja;
+          if(primeraCarta.icono === segundaCarta.icono){
+              baraja = baraja.map((carta) =>{
+                  if(carta.icono !== primeraCarta.icono){
+                      return carta;
+                  }
+
+                  return {...carta, fueAdivinada: true};
+              });
+          }
+          this.verificarSiHayGanador(baraja);
+          this.setState({
+              parejaSeleccionada: [],
+              baraja,
+              estaComparando: false,
+              numeroDeIntentos: this.state.numeroDeIntentos + 1
+          })
+      },1000)
+  }
+
+  verificarSiHayGanador(baraja){
+      if(
+          baraja.filter((carta) => !carta.fueAdivinada).lenght === 0
+      ){
+        alert(`Ganaste en ${this.state.numeroDeIntentos} intentos!`);
+      }
+  }
+
+  resetearPartida(){
+      this.setState(
+          getEstadoInicial()
+      );
   }
 }
 

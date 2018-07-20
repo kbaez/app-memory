@@ -1,5 +1,4 @@
 import React, {Component } from 'react';
-import './Header.css';
 import Carta from './Carta';
 import './Tablero.css';
 
@@ -17,7 +16,7 @@ export default class Tablero extends Component {
                                 estaSiendoComparada={estaSiendoComparada}
                                 seleccionarCarta={() => this.props.seleccionarCarta(carta)}
                                 fueAdivinada={carta.fueAdivinada}
-                            />
+                            />;
                         })
                 }
             </div>

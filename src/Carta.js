@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './Carta.css';
-import FlipCard from 'react-flipcard-2';
+import FlipCard from 'react-flipcard';
 
 export default class Carta extends Component{
     render(){
@@ -18,4 +18,4 @@ export default class Carta extends Component{
             </div>
         )
     }
-}
+};

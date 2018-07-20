@@ -7,9 +7,9 @@ export default class Header extends Component {
             <header>
                 <div className="titulo">React-parejas</div>
                 <div>
-                    <button className="boton-reiniciar">Reiniciar</button>
+                    <button className="boton-reiniciar" onClick={this.props.resetearPartida}>Reiniciar</button>
                 </div>
-                <div className="titulo">Intentos:</div>
+                <div className="titulo">Intentos:{this.props.numeroDeIntentos}</div>
             </header>
         );
     }
